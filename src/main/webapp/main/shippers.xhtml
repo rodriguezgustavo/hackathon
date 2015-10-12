@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+        >
+    <h:form id="shippersForm">
+        <p:dataTable id="shippersTable" var="shipper" value="#{shippersView.lazyModel}" paginator="true" rows="15" rowKey="#{shipper.id}"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     lazy="true" paginatorPosition="bottom"
+                     currentPageReportTemplate="{currentPage} de {totalPages}" rowsPerPageTemplate="15,30,50"  style="width:100%;margin-top:20px">
+
+            <p:column style="width:32px; text-align:center">
+                <f:facet name="header">
+                    <p:commandLink action="#{shipperEditorView.onShipperAdd}">
+                        <p:graphicImage value="../img/add.png" />
+                    </p:commandLink>
+                </f:facet>
+                <p:commandLink action="#{shipperEditorView.onShipperEdit(shipper)}">
+                    <p:graphicImage value="../img/edit.png"/>
+                </p:commandLink>
+            </p:column>
+            <p:column headerText="Nombre" sortBy="#{shipper.name}" filterBy="#{shipper.name}" filterStyle="width: 60%;" style="width:30%">
+                <h:outputText value="#{shipper.name}" />
+            </p:column>
+
+            <p:column headerText="Vehículo" sortBy="#{shipper.vehicle}" filterBy="#{shipper.vehicle}" filterStyle="width: 80%;"  style="width:30%">
+                <h:outputText value="#{shipper.vehicle}" />
+            </p:column>
+
+            <p:column headerText="Email" sortBy="#{shipper.email}" filterBy="#{shipper.email}" filterStyle="width: 80%;"  style="width:30%">
+                <h:outputText value="#{shipper.email}" />
+            </p:column>
+
+            <p:column headerText="Clasificación" sortBy="#{shipper.shipperType}" style="width: 100px">
+                <h:outputText value="#{shipper.shipperType}" />
+            </p:column>
+
+            <p:column headerText="Reputación" sortBy="#{shipper.reputation}"  style="width:100px">
+                <p:rating readonly="true" cancel="false" value="#{shipper.reputation}" />
+            </p:column>
+
+            <p:column headerText="Activo"  style="width:60px">
+                <h:outputText value="#{shipper.isActive()?'Si':'No'}" />
+            </p:column>
+
+            <p:column headerText="Última Ubicación"  style="width:180px">
+                <h:outputText value="(#{shipper.longitude},#{shipper.latitude})" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>

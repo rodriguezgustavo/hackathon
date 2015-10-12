@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:form id="shipperEditionForm">
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel for="nameInputTextId" value="Nombre" />
+                </td>
+                <td>
+                    <p:inputText id="nameInputTextId" value="#{shipperEditorView.selectedShipper.name}" maxlength="60" style="width: 400px" required="true" requiredMessage="Nombre en blanco"/>
+                </td>
+            </tr>
+        </table>
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel for="activeInputId" value="Activo" />
+                </td>
+                <td>
+                    <p:inputSwitch id="activeInputId" value="#{shipperEditorView.selectedShipper.active}" offLabel="No" onLabel="Si"/>
+                </td>
+            </tr>
+        </table>
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel for="shipperTypeId" value="Clasificación" />
+                </td>
+                <td>
+                    <p:selectOneMenu id="shipperTypeId" value="#{shipperEditorView.selectedShipper.shipperType}" style="width:125px" required="true" requiredMessage="Falta seleccionar el tipo de shipper">
+                        <f:selectItem itemLabel="Encomiendas" itemValue="Encomiendas" />
+                        <f:selectItem itemLabel="Fletes" itemValue="Fletes" />
+                    </p:selectOneMenu>
+                </td>
+            </tr>
+        </table>
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel for="vehicleInputTextId" value="Vehículo" />
+                </td>
+                <td>
+                    <p:inputText id="vehicleInputTextId" value="#{shipperEditorView.selectedShipper.vehicle}" maxlength="60" style="width: 400px" required="true"  requiredMessage="Vehiculo en blanco"/>
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel for="emailInputTextId" value="Email" />
+                </td>
+                <td>
+                    <p:inputText id="emailInputTextId" value="#{shipperEditorView.selectedShipper.email}" maxlength="60" style="width: 400px" required="true" requiredMessage="Email en blanco"/>
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel for="reputationStars" value="Reputación" />
+                </td>
+                <td>
+                    <p:rating id="reputationStars" cancel="false" value="#{shipperEditorView.selectedShipper.reputation}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="140px">
+                    <p:outputLabel value="Última Ubicación" />
+                </td>
+                <td>
+                    <p:outputLabel for="latInputText" value="Lat" style="margin-right: 30px"/>
+                    <p:inputText id="latInputText" value="#{shipperEditorView.selectedShipper.latitude}" maxlength="60" style="width: 100px; margin-right: 30px"/>
+                    <p:outputLabel for="longInputText" value="Long" style="margin-right: 30px"/>
+                    <p:inputText id="longInputText" value="#{shipperEditorView.selectedShipper.longitude}" maxlength="60" style="width: 100px"/>
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" style="width:100%;margin-top:20px">
+            <tr>
+                <td width="100%"/>
+                <td width="100px">
+                    <p:commandButton value="Guardar" update=":mainPanel :growlMessage" action="#{shipperEditorView.saveEdition}"/>
+                </td>
+                <td width="100px">
+                    <p:commandButton value="Cancelar" update=":mainPanel :growlMessage" action="#{shipperEditorView.cancelEdition}" immediate="true" />
+                </td>
+            </tr>
+        </table>
+    </h:form>
+</ui:composition>
