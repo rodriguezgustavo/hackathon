@@ -82,12 +82,5 @@ public class HomePageControllerBean implements Serializable {
         }
     }
 
-    public List<Shipper> getShippers(){
-        return SessionUtil.getCurrentSession().getShippers();
-    }
-
-    public List<Order> getOrders(){
-        return new ArrayList<>();
-    }
 
 }

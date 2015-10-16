@@ -3,6 +3,7 @@ package com.ml.hackathon.ui.views;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Sender;
+import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.HomePageControllerBean;
 import com.ml.hackathon.ui.views.util.LazyOrdersDataModel;
 import com.ml.hackathon.ui.views.util.LazyShippersDataModel;
@@ -25,12 +26,12 @@ public class OrdersView implements Serializable{
     public static final String BEAN_NAME="ordersView";
 
     private LazyOrdersDataModel ordersDataModel;
-    private HomePageControllerBean homePageBean;
+    private ApplicationControllerBean appBean;
 
     @PostConstruct
     public void init(){
-        homePageBean=(HomePageControllerBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(HomePageControllerBean.BEAN_NAME);
-        ordersDataModel= new LazyOrdersDataModel(homePageBean.getOrders());
+        appBean=(ApplicationControllerBean) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(ApplicationControllerBean.BEAN_NAME);
+        ordersDataModel= new LazyOrdersDataModel(appBean.getOrders());
     }
 
 
