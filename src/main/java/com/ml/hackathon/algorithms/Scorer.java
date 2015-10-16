@@ -3,6 +3,7 @@ package com.ml.hackathon.algorithms;
 import com.ml.hackathon.domain.Shipper;
 import com.ml.hackathon.domain.ShipperScore;
 import com.ml.hackathon.domain.Order;
+import com.ml.hackathon.domain.LatLon;
 
 import java.util.*;
 
@@ -17,7 +18,7 @@ public class Scorer {
 
         List<ShipperScore> scored = new ArrayList<>();
 
-        LatLon target = new LatLon(-34, -54); // TODO sacar de order
+        LatLon target = new LatLon(order.getItemLatitude(), order.getItemLongitude());
 
         for (Shipper s: candidates) {
 
@@ -39,9 +40,9 @@ public class Scorer {
     private static final Comparator<ShipperScore> SORT_BY_SCORE_DESC = new Comparator<ShipperScore>() {
         @Override
         public int compare(ShipperScore o1, ShipperScore o2) {
-            int score = - o1.score.compareTo(o2.score);
+            int score = - o1.getScore().compareTo(o2.getScore());
             if (score == 0) {
-                return o1.distance.compareTo(o2.distance);
+                return o1.getDistance().compareTo(o2.getDistance());
             } else {
                 return score;
             }
@@ -113,19 +114,8 @@ public class Scorer {
         }
     }
 
-    private static class LatLon {
-        final double lat;
-        final double lon;
-
-        LatLon(double lat, double lon) {
-            this.lat = lat;
-            this.lon = lon;
-        }
-    }
-
-
     private static double distanceBetween (LatLon x, LatLon y) {
-        return distance(x.lat, x.lon, y.lat, y.lon, 'K');
+        return distance(x.getLatitude(), x.getLongitude(), y.getLatitude(), y.getLongitude(), 'K');
     }
 
     private static double distance(double lat1, double lon1, double lat2, double lon2, char unit) {

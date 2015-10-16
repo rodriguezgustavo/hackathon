@@ -27,9 +27,9 @@ public class ShippersDao extends BaseDao{
             st.setString(5, shipper.getEmail());
             st.setInt(6, shipper.getReputation());
             st.setDouble(7, shipper.getLatitude());
-            st.setDouble(8,shipper.getLongitude());
+            st.setDouble(8, shipper.getLongitude());
             st.setString(9, shipper.getToken());
-            st.setTimestamp(10, new Timestamp(shipper.getLastSeen().getTime()));
+            st.setTimestamp(10, new Timestamp(new Date().getTime()));
 
             if(st.executeUpdate()==1){
                 ResultSet key = st.getGeneratedKeys();
@@ -73,9 +73,13 @@ public class ShippersDao extends BaseDao{
             st.setString(5, shipper.getEmail());
             st.setInt(6, shipper.getReputation());
             st.setDouble(7, shipper.getLatitude());
-            st.setDouble(8,shipper.getLongitude());
+            st.setDouble(8, shipper.getLongitude());
             st.setString(9, shipper.getToken());
-            st.setTimestamp(10, new Timestamp(shipper.getLastSeen().getTime()));
+            if(shipper.getLastSeen()!=null){
+                st.setTimestamp(10, new Timestamp(shipper.getLastSeen().getTime()));
+            }else{
+                st.setTimestamp(10, new Timestamp(new Date().getTime()));
+            }
             st.setInt(11, shipper.getId());
 
             return st.executeUpdate()==1;
