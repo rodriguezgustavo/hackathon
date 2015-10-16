@@ -3,10 +3,15 @@ package com.ml.hackathon.ui.views;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Sender;
+import com.ml.hackathon.HomePageControllerBean;
+import com.ml.hackathon.ui.views.util.LazyOrdersDataModel;
+import com.ml.hackathon.ui.views.util.LazyShippersDataModel;
 import org.primefaces.context.RequestContext;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +23,16 @@ import java.util.List;
 @ViewScoped
 public class OrdersView implements Serializable{
     public static final String BEAN_NAME="ordersView";
+
+    private LazyOrdersDataModel ordersDataModel;
+    private HomePageControllerBean homePageBean;
+
+    @PostConstruct
+    public void init(){
+        homePageBean=(HomePageControllerBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(HomePageControllerBean.BEAN_NAME);
+        ordersDataModel= new LazyOrdersDataModel(homePageBean.getOrders());
+    }
+
 
 
     // The SENDER_ID here is the "Browser Key" that was generated when I
@@ -39,6 +54,10 @@ public class OrdersView implements Serializable{
     public boolean isRefreshing(){
         return refreshing;
     }
+
+
+
+
 
     public void process(){
 

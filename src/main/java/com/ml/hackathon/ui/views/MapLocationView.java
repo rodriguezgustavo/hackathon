@@ -36,8 +36,6 @@ public class MapLocationView implements Serializable {
     public void init() {
         homePageBean=(HomePageControllerBean)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(HomePageControllerBean.BEAN_NAME);
         mapModel = new DefaultMapModel();
-
-
     }
 
     public Double getMapCenterLatitude(){
