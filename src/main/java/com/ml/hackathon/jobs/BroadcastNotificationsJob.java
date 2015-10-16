@@ -35,6 +35,8 @@ public class BroadcastNotificationsJob implements Runnable {
                     for(ShipperScore shipperScore : shippersScores) {
                         Map<String, String> data = new HashMap<String, String>();
 
+                        data.put("", "");
+
                        NotificationsSender.send(shipperScore.getShipper().getToken(), data);
                     }
 
