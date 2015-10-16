@@ -15,7 +15,7 @@ public class Scorer {
     private static final double MAX_DISTANCE   = 100; // km
     private static final double MIN_REPUTATION = 0;
 
-    public static List<ShipperScore> getShipperForOrder (Order order, List<Shipper> candidates) {
+    public static List<ShipperScore> getShippersForOrder (Order order, List<Shipper> candidates) {
 
         List<ShipperScore> scored = new ArrayList<>();
 
@@ -33,15 +33,20 @@ public class Scorer {
             scored.add(new ShipperScore(s, score, dist));
         }
 
-        Collections.sort(scored, SORT_BY_SCORE);
+        Collections.sort(scored, SORT_BY_SCORE_DESC);
 
         return scored;
     }
 
-    private static final Comparator<ShipperScore> SORT_BY_SCORE = new Comparator<ShipperScore>() {
+    private static final Comparator<ShipperScore> SORT_BY_SCORE_DESC = new Comparator<ShipperScore>() {
         @Override
         public int compare(ShipperScore o1, ShipperScore o2) {
-            return o1.score.compareTo(o2.score);
+            int score = - o1.score.compareTo(o2.score);
+            if (score == 0) {
+                return o1.distance.compareTo(o2.distance);
+            } else {
+                return score;
+            }
         }
     };
 
@@ -51,7 +56,55 @@ public class Scorer {
 
     private static double calculateScore (Shipper s, double distanceTo) {
         // very smart algorithm
-        return 100 * s.getReputation() - distanceTo * 10;
+        DistanceRanking dr   = getDistanceRanking (distanceTo);
+        ReputationRanking rr = getReputationRanking(s.getReputation());
+        return 0.5 * rr.getWeight() + 0.5 * dr.getWeight();
+    }
+
+    private static DistanceRanking getDistanceRanking(double distanceTo) {
+        if (distanceTo > 10) {
+            return DistanceRanking.VERY_FAR;
+        } else if (distanceTo > 8) {
+            return DistanceRanking.FAR;
+        } else if (distanceTo > 6) {
+            return DistanceRanking.MIDDLE;
+        } else if (distanceTo > 4) {
+            return  DistanceRanking.CLOSE;
+        } else {
+            return DistanceRanking.VERY_CLOSE;
+        }
+    }
+
+    private  static ReputationRanking getReputationRanking (int reputation) {
+        if (reputation >= 5) {
+            return ReputationRanking.HIGH;
+        } else if (reputation >= 3) {
+            return ReputationRanking.MIDDLE;
+        } else {
+            return ReputationRanking.LOW;
+        }
+    }
+
+    private enum ReputationRanking {
+
+        HIGH(5), MIDDLE(3), LOW(1);
+        private int weight;
+        int getWeight () { return weight; }
+
+        ReputationRanking (int reputation) {
+            weight = reputation;
+        }
+    }
+
+    private enum DistanceRanking {
+        VERY_CLOSE(5), CLOSE(4), MIDDLE(3), FAR(2), VERY_FAR(1);
+        private int weight;
+
+        int getWeight () { return weight; }
+
+         DistanceRanking (int w) {
+            weight = w;
+        }
     }
 
     private static class LatLon {

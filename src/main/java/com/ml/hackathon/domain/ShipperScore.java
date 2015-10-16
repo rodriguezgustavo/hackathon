@@ -6,7 +6,7 @@ package com.ml.hackathon.domain;
 public class ShipperScore {
     public final Shipper shipper;
     public final Double  score;
-    public final double  distance;
+    public final Double  distance;
 
     public ShipperScore (Shipper s, double score, double distance) {
         shipper = s;
