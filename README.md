@@ -14,4 +14,9 @@ Para armar el ambiente local:
          connectionName="{db.user}" connectionPassword="{db.pass}"
               userTable="user" userNameCol="user_name" userCredCol="user_pass"
           userRoleTable="user_role" roleNameCol="role_name" />
-- La forma mas facil de correrlo es agarrar el IDE, abrir el pom, configurar el tomcat de tu maquina y correrlo
+
+
+Para correrlo:
+Opcion 1) agarrar el IDE, abrir el pom, configurar el tomcat de tu maquina y correrlo
+Opcion 2) correr mvn package -P dev, agarrar el war que se genero en target dir y moverlo al webapp de tu tomcat
+Para generar war de production: mvn package -P production

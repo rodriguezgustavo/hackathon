@@ -36,13 +36,10 @@ public class HomePageControllerBean implements Serializable {
         return FacesContext.getCurrentInstance().getExternalContext();
     }
 
-    private List<Shipper> shippers;
-
     @PostConstruct
     public void init() {
         User currentUser=UserDao.getUserInfo(getExternalContext().getRemoteUser());
-        shippers= ShippersDao.getShippers();
-        Session currentSession=new Session(currentUser);
+        Session currentSession=new Session(currentUser,ShippersDao.getShippers());
         SessionUtil.addCurrentSession(currentSession);
         sessionId=currentSession.getSessionId();
         System.out.println("Account Session started for: " + currentSession.getUser().getUserName() + "," + sessionId);
@@ -85,10 +82,7 @@ public class HomePageControllerBean implements Serializable {
     }
 
     public List<Shipper> getShippers(){
-        return shippers;
+        return SessionUtil.getCurrentSession().getShippers();
     }
 
-    public boolean isAdmin(){
-        return getExternalContext().isUserInRole("admin");
-    }
 }

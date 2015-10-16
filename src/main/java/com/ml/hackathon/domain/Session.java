@@ -15,8 +15,11 @@ public class Session  implements Serializable{
 
     private User user;
 
-    public Session(User user) {
+    private List<Shipper> shippers;
+
+    public Session(User user, List<Shipper> shippers) {
         this.user = user;
+        this.shippers=shippers;
     }
 
     public User getUser() {
@@ -27,6 +30,11 @@ public class Session  implements Serializable{
     public String getSessionId() {
         return sessionId;
     }
+
+    public List<Shipper> getShippers() {
+        return shippers;
+    }
+
 
 
 }

@@ -135,7 +135,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://ec2-52-91-198-199.compute-1.amazonaws.com:8080/manager/text</url>
+                    <url>http://ec2-52-91-198-199.compute-1.amazonaws.com:8080/manager/html</url>
                     <server>TomcatServer</server>
                     <path>/hackathon</path>
                 </configuration>

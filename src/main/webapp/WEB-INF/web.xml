@@ -84,6 +84,10 @@
         <servlet-name>locationServlet</servlet-name>
         <servlet-class>com.ml.hackathon.servlet.LocationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>activationServlet</servlet-name>
+        <servlet-class>com.ml.hackathon.servlet.ActivationServlet</servlet-class>
+    </servlet>
 
     <!-- Map these files with JSF -->
     <servlet-mapping>
@@ -105,5 +109,9 @@
     <servlet-mapping>
         <servlet-name>locationServlet</servlet-name>
         <url-pattern>/location</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>activationServlet</servlet-name>
+        <url-pattern>/activate</url-pattern>
     </servlet-mapping>
 </web-app>

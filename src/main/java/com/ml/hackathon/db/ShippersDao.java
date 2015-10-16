@@ -132,4 +132,79 @@ public class ShippersDao extends BaseDao{
         return result;
     }
 
+
+    public static Shipper getShipper(String email){
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con=getConnection();
+
+            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude  FROM shipper WHERE email=?");
+            st.setString(1,email);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                return new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return null;
+    }
+
+
+    public static Shipper getShipper(int shipperId){
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            con=getConnection();
+
+            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude  FROM shipper WHERE id=?");
+            st.setInt(1, shipperId);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                return new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9));
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (st != null) {
+                    st.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return null;
+    }
+
+
 }

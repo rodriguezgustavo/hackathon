@@ -1,5 +1,10 @@
 package com.ml.hackathon.servlet;
 
+import com.ml.hackathon.db.ShippersDao;
+import com.ml.hackathon.domain.Session;
+import com.ml.hackathon.domain.Shipper;
+import com.ml.hackathon.util.SessionUtil;
+
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -8,7 +13,7 @@ import javax.servlet.http.*;
  * Created by gurodriguez
  */
 
-//curl "localhost:8080/location?session_id=oeoe&latitude=eee&longitude=1122"
+//curl "localhost:8080/location?shipper_id={id}&latitude={lat}&longitude={long}
 public class LocationServlet extends HttpServlet {
 
     public void init() throws ServletException
@@ -20,12 +25,31 @@ public class LocationServlet extends HttpServlet {
                       HttpServletResponse response)
             throws ServletException, IOException
     {
-        String sessionId=request.getParameter("session_id");
-        String latitude=request.getParameter("latitude");
-        String longitude = request.getParameter("longitude");
+        int shipperId=Integer.parseInt(request.getParameter("shipper_id"));
+        double latitude=Double.valueOf(request.getParameter("latitude"));
+        double longitude = Double.valueOf(request.getParameter("longitude"));
 
-        System.out.println("Request from "+sessionId+"; lat:"+latitude+";long:"+longitude);
+        System.out.println("Request from "+shipperId+"; lat:"+latitude+";long:"+longitude);
 
+        Shipper shipper= ShippersDao.getShipper(shipperId);
+        if(shipper!=null){
+            shipper.setLatitude(latitude);
+            shipper.setLongitude(longitude);
+            for(Session session: SessionUtil.getOpenSessions()){
+                updateShipper(session, shipperId, latitude,longitude);
+            }
+            ShippersDao.updateShipper(shipper);
+        }
+    }
+
+    private void updateShipper(Session session,int shipperId,double latitude,double longitude){
+        for(Shipper s:session.getShippers()){
+            if(s.getId()==shipperId){
+                s.setLatitude(latitude);
+                s.setLongitude(longitude);
+                break;
+            }
+        }
     }
 
     public void destroy()

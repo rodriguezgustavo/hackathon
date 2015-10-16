@@ -4,8 +4,7 @@ import com.ml.hackathon.domain.Session;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -29,5 +28,9 @@ public class SessionUtil {
 
     public static Session getCurrentSession(){
         return (Session)getExternalContext().getSessionMap().get(SESSION_INFO);
+    }
+
+    public static List<Session> getOpenSessions(){
+        return new ArrayList<>(openSessions.values());
     }
 }
