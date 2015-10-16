@@ -7,6 +7,7 @@ import com.ml.hackathon.domain.Shipper;
 import com.ml.hackathon.util.SessionUtil;
 
 import java.io.*;
+import java.util.Date;
 import javax.faces.context.FacesContext;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -40,6 +41,7 @@ public class LocationServlet extends HttpServlet {
         if(shipper!=null){
             shipper.setLatitude(latitude);
             shipper.setLongitude(longitude);
+            shipper.setLastSeen(new Date());
             for(Shipper s:appBean.getShippers()) {
                 if(s.getId()==shipperId){
                     s.setLatitude(latitude);
