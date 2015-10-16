@@ -51,7 +51,7 @@ public class ShipperEditorView implements Serializable {
         if(this.selectedShipper.getId()==0){
             this.selectedShipper=ShippersDao.addShipper(this.selectedShipper);
             if(selectedShipper.getId()>0){
-                context.addMessage(null, new FacesMessage("Shipper creado con éxito",  null) );
+                context.addMessage(null, new FacesMessage("Shipper creado con éxito", null));
                 appBean.getShippers().add(selectedShipper);
             }else{
                 context.addMessage(null, new FacesMessage("No se pudo crear el shipper",  null) );

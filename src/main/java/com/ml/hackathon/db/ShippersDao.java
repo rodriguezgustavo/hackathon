@@ -3,6 +3,7 @@ package com.ml.hackathon.db;
 import com.ml.hackathon.domain.Shipper;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +19,17 @@ public class ShippersDao extends BaseDao{
         ResultSet rs = null;
         try {
             con=getConnection();
-            st = con.prepareStatement("INSERT INTO shipper (name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude) VALUES (?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            st = con.prepareStatement("INSERT INTO shipper (name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude,token, last_seen) VALUES (?,?,?,?,?,?,?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, shipper.getName());
             st.setBoolean(2, shipper.isActive());
-            st.setString(3,shipper.getShipperType());
+            st.setString(3, shipper.getShipperType());
             st.setString(4, shipper.getVehicle());
             st.setString(5, shipper.getEmail());
             st.setInt(6, shipper.getReputation());
             st.setDouble(7, shipper.getLatitude());
             st.setDouble(8,shipper.getLongitude());
+            st.setString(9, shipper.getToken());
+            st.setTimestamp(10, new Timestamp(shipper.getLastSeen().getTime()));
 
             if(st.executeUpdate()==1){
                 ResultSet key = st.getGeneratedKeys();
@@ -62,16 +65,19 @@ public class ShippersDao extends BaseDao{
         ResultSet rs = null;
         try {
             con=getConnection();
-            st = con.prepareStatement("UPDATE shipper SET name=?,active=?,shipper_type=?, vehicle=?,email=?, reputation=?, last_latitude=?, last_longitude=?  WHERE id=?");
+            st = con.prepareStatement("UPDATE shipper SET name=?,active=?,shipper_type=?, vehicle=?,email=?, reputation=?, last_latitude=?, last_longitude=?, token=?, last_seen=? WHERE id=?");
             st.setString(1, shipper.getName());
             st.setBoolean(2, shipper.isActive());
             st.setString(3, shipper.getShipperType());
             st.setString(4, shipper.getVehicle());
             st.setString(5, shipper.getEmail());
             st.setInt(6, shipper.getReputation());
-            st.setDouble(7,shipper.getLatitude());
+            st.setDouble(7, shipper.getLatitude());
             st.setDouble(8,shipper.getLongitude());
-            st.setInt(9, shipper.getId());
+            st.setString(9, shipper.getToken());
+            st.setTimestamp(10, new Timestamp(shipper.getLastSeen().getTime()));
+            st.setInt(11, shipper.getId());
+
             return st.executeUpdate()==1;
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -102,11 +108,11 @@ public class ShippersDao extends BaseDao{
         try {
             con=getConnection();
 
-            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude FROM shipper");
+            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude,token, last_seen FROM shipper");
             rs = st.executeQuery();
 
             while (rs.next()) {
-                result.add(new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9)));
+                result.add(new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),rs.getString(10), (Date) rs.getTimestamp(11)));
             }
 
         } catch (SQLException ex) {
@@ -140,12 +146,12 @@ public class ShippersDao extends BaseDao{
         try {
             con=getConnection();
 
-            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude  FROM shipper WHERE email=?");
+            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude,token, last_seen FROM shipper WHERE email=?");
             st.setString(1,email);
             rs = st.executeQuery();
 
             if (rs.next()) {
-                return new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9));
+                return new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9),rs.getString(10), (Date) rs.getTimestamp(11));
             }
 
         } catch (SQLException ex) {
@@ -177,12 +183,12 @@ public class ShippersDao extends BaseDao{
         try {
             con=getConnection();
 
-            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude  FROM shipper WHERE id=?");
+            st = con.prepareStatement("SELECT id,name,active,shipper_type,vehicle,email,reputation,last_latitude,last_longitude,token, last_seen FROM shipper WHERE id=?");
             st.setInt(1, shipperId);
             rs = st.executeQuery();
 
             if (rs.next()) {
-                return new Shipper(rs.getInt(1), rs.getString(2),rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8),rs.getDouble(9));
+                return new Shipper(rs.getInt(1), rs.getString(2), rs.getBoolean(3), rs.getString(4),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getDouble(8), rs.getDouble(9),rs.getString(10), (Date) rs.getTimestamp(11));
             }
 
         } catch (SQLException ex) {

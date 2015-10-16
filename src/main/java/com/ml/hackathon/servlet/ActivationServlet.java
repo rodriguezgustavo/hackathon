@@ -14,7 +14,7 @@ import java.io.IOException;
  * Created by gurodriguez
  */
 
-//curl "localhost:8080/activate?email={mail}&active={true|false}"
+//curl "localhost:8080/activate?email={mail}&active={true|false}&user_token={token}"
 public class ActivationServlet extends HttpServlet {
 
     private ApplicationControllerBean appBean;
@@ -30,15 +30,18 @@ public class ActivationServlet extends HttpServlet {
     {
         String email=request.getParameter("email");
         boolean active=Boolean.parseBoolean(request.getParameter("active"));
+        String token=request.getParameter("user_token");
 
-        System.out.println("Request from " + email + "; active:" + active);
+        System.out.println("Request from " + email + "; active:" + active+"; token:"+token);
 
         Shipper shipper=ShippersDao.getShipper(email);
         if(shipper!=null){
             shipper.setActive(active);
+            shipper.setToken(token);
             for(Shipper s:appBean.getShippers()) {
                 if (s.getEmail().equals(email)) {
                     s.setActive(active);
+                    s.setToken(token);
                     break;
                 }
             }
