@@ -1,0 +1,2 @@
+curl 'localhost:8080/location?shipper_id={id}&latitude={lat}&longitude={long}'
+curl 'localhost:8080/activate?email={email}&active={true|false}'  devuelve s1hipper id

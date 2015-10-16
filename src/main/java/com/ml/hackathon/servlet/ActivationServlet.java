@@ -1,11 +1,13 @@
 package com.ml.hackathon.servlet;
 
+import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.db.UserDao;
 import com.ml.hackathon.domain.Session;
 import com.ml.hackathon.domain.Shipper;
 import com.ml.hackathon.util.SessionUtil;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +21,11 @@ import java.io.IOException;
 //curl "localhost:8080/activate?email={mail}&active={true|false}"
 public class ActivationServlet extends HttpServlet {
 
+    private ApplicationControllerBean appBean;
+
     public void init() throws ServletException
     {
-        // Do required initialization
+        appBean= (ApplicationControllerBean)getServletContext().getAttribute(ApplicationControllerBean.BEAN_NAME);
     }
 
     public void doGet(HttpServletRequest request,
@@ -36,23 +40,19 @@ public class ActivationServlet extends HttpServlet {
         Shipper shipper=ShippersDao.getShipper(email);
         if(shipper!=null){
             shipper.setActive(active);
-            for(Session session:SessionUtil.getOpenSessions()){
-                activateShipper(session,email,active);
+            for(Shipper s:appBean.getShippers()) {
+                if (s.getEmail().equals(email)) {
+                    s.setActive(active);
+                    break;
+                }
             }
+
             ShippersDao.updateShipper(shipper);
         }
         response.setStatus(HttpServletResponse.SC_OK);
         response.getOutputStream().print(shipper.getId());
     }
 
-    private void activateShipper(Session session,String email,boolean active){
-        for(Shipper s:session.getShippers()){
-            if(s.getEmail().equals(email)){
-                s.setActive(active);
-                break;
-            }
-        }
-    }
 
     public void destroy()
     {

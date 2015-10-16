@@ -16,6 +16,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,8 +82,5 @@ public class HomePageControllerBean implements Serializable {
         }
     }
 
-    public List<Shipper> getShippers(){
-        return SessionUtil.getCurrentSession().getShippers();
-    }
 
 }
