@@ -1,0 +1,93 @@
+package com.ml.hackathon.algorithms;
+
+import com.ml.hackathon.domain.Shipper;
+import com.ml.hackathon.domain.ShipperScore;
+import com.ml.hackathon.domain.Order;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+
+public class Scorer {
+
+    private static final double MAX_DISTANCE   = 100; // km
+    private static final double MIN_REPUTATION = 0;
+
+    public static List<ShipperScore> getShipperForOrder (Order order, List<Shipper> candidates) {
+
+        List<ShipperScore> scored = new ArrayList<>();
+
+        LatLon target = new LatLon(-34, -54); // TODO sacar de order
+
+        for (Shipper s: candidates) {
+
+            if (!isAllowed(s)) continue;
+
+            LatLon pos  = new LatLon(s.getLatitude(), s.getLongitude());
+            double dist = distanceBetween(target, pos);
+            if (dist > MAX_DISTANCE) continue;
+
+            double score = calculateScore (s, dist);
+            scored.add(new ShipperScore(s, score, dist));
+        }
+
+        Collections.sort(scored, SORT_BY_SCORE);
+
+        return scored;
+    }
+
+    private static final Comparator<ShipperScore> SORT_BY_SCORE = new Comparator<ShipperScore>() {
+        @Override
+        public int compare(ShipperScore o1, ShipperScore o2) {
+            return o1.score.compareTo(o2.score);
+        }
+    };
+
+    private static boolean isAllowed (Shipper s) {
+        return s.isActive() && s.getReputation() > MIN_REPUTATION;
+    }
+
+    private static double calculateScore (Shipper s, double distanceTo) {
+        // very smart algorithm
+        return 100 * s.getReputation() - distanceTo * 10;
+    }
+
+    private static class LatLon {
+        final double lat;
+        final double lon;
+
+        LatLon(double lat, double lon) {
+            this.lat = lat;
+            this.lon = lon;
+        }
+    }
+
+
+    private static double distanceBetween (LatLon x, LatLon y) {
+        return distance(x.lat, x.lon, y.lat, y.lon, 'K');
+    }
+
+    private static double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K') {
+            dist = dist * 1.609344;
+        } else if (unit == 'N') {
+            dist = dist * 0.8684;
+        }
+        return (dist);
+    }
+
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
+}
