@@ -38,11 +38,11 @@ public class OrdersView implements Serializable{
 
     // The SENDER_ID here is the "Browser Key" that was generated when I
     // created the API keys for my Google APIs project.
-    private static final String SENDER_ID = "598795599341";
+    private static final String API_KEY = "AIzaSyCyalL6pxqpD29ap3yYLdZ3CAEldhhuwhI";
 
     // This is a *cheat*  It is a hard-coded registration ID from an Android device
     // that registered itself with GCM using the same project id shown above.
-    private static final String ANDROID_DEVICE = "YOUR_CAPTURED_ANDROID_DEVICE_KEY";
+    private static final String ANDROID_DEVICE = "eVyd8APINs0:APA91bG33oxeZqTndKXwbI6I6qiqLef9ECn9yp5PktSHlpFr4NUjbMv5lWkfNeIvBUB5G-aQvdDAayLOvK7WAu5HGt2vVauG4ezQkIuKigczNk610AkgGvI_gJEOIWi5huJZkYVsQTk7";
 
     private String message="Sin arrancar";
 
@@ -62,15 +62,13 @@ public class OrdersView implements Serializable{
 
     public void process(){
 
-        System.out.println("Comienza push");
-
-
         List<String> androidTargets = new ArrayList<>();
         androidTargets.add(ANDROID_DEVICE);
 
         // Instance of com.android.gcm.server.Sender, that does the
         // transmission of a Message to the Google Cloud Messaging service.
-        Sender sender = new Sender(SENDER_ID);
+        Sender sender = new Sender(API_KEY);
+
 
         // This Message object will hold the data that is being transmitted
         // to the Android client devices.  For this demo, it is a simple text
@@ -84,7 +82,7 @@ public class OrdersView implements Serializable{
                 .collapseKey("")
                 .timeToLive(30)
                 .delayWhileIdle(true)
-                .addData("message", "Mensaje para Ernesto!!!")
+                .addData("title", "Mensaje para Ernesto!!!")
                 .build();
 
         try {
