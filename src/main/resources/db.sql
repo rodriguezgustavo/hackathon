@@ -23,7 +23,7 @@
 # Dump of table order
 # ------------------------------------------------------------
 
-CREATE TABLE `order` (
+CREATE TABLE `shipping_order` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `order_id` bigint(20) NOT NULL,
   `status` varchar(40) NOT NULL DEFAULT '',
