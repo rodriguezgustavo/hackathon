@@ -37,7 +37,7 @@ public class ApplicationControllerBean implements Serializable {
             log.error("Unexpected error in init method", e);
         }
 
-        new Thread(new BroadcastNotificationsJob()).start();
+        //new Thread(new BroadcastNotificationsJob()).start();
     }
 
     public List<Shipper> getShippers(){
