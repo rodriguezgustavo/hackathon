@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ml</groupId>
-    <artifactId>hackthon</artifactId>
+    <artifactId>hackathon</artifactId>
     <packaging>war</packaging>
     <version>1.0</version>
-    <name>hackthon</name>
+    <name>hackathon</name>
     <repositories>
         <repository>
             <id>mercadolibre-snapshots</id>
@@ -116,9 +116,28 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <outputDirectory>target</outputDirectory>
+                    <warName>hackathon</warName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://ec2-52-91-198-199.compute-1.amazonaws.com:8080/manager/text</url>
+                    <server>TomcatServer</server>
+                    <path>/hackathon</path>
                 </configuration>
             </plugin>
         </plugins>
@@ -143,24 +162,18 @@
             <id>production</id>
             <properties>
                 <environment>prod</environment>
-                <db.host></db.host>
-                <db.port></db.port>
-                <db.name></db.name>
-                <db.user></db.user>
-                <db.pass></db.pass>
+                <db.host>meli-hackathon-db.ccoev8057nb0.us-east-1.rds.amazonaws.com</db.host>
+                <db.port>3306</db.port>
+                <db.name>meli_hackathon_db</db.name>
+                <db.user>hackathon</db.user>
+                <db.pass>Meli123456</db.pass>
             </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.1.1</version>
-                        <configuration>
-                            <outputDirectory>webapps</outputDirectory>
-                            <warName>ROOT</warName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>production</value>
+                </property>
+            </activation>
         </profile>
     </profiles>
 </project>
