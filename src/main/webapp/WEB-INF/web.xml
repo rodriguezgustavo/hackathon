@@ -88,6 +88,14 @@
         <servlet-name>activationServlet</servlet-name>
         <servlet-class>com.ml.hackathon.servlet.ActivationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>orderFlowServlet</servlet-name>
+        <servlet-class>com.ml.hackathon.servlet.OrderFlowServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>statusServlet</servlet-name>
+        <servlet-class>com.ml.hackathon.servlet.StatusChangeServlet</servlet-class>
+    </servlet>
 
     <!-- Map these files with JSF -->
     <servlet-mapping>
@@ -113,5 +121,13 @@
     <servlet-mapping>
         <servlet-name>activationServlet</servlet-name>
         <url-pattern>/activate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orderFlowServlet</servlet-name>
+        <url-pattern>/flow</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>statusServlet</servlet-name>
+        <url-pattern>/status</url-pattern>
     </servlet-mapping>
 </web-app>
