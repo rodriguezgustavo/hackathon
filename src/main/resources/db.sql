@@ -61,7 +61,7 @@ CREATE TABLE `shipper` (
   `reputation` int(4) NOT NULL,
   `last_latitude` double DEFAULT NULL,
   `last_longitude` double DEFAULT NULL,
-  `token` varchar(30) DEFAULT NULL,
+  `token` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
