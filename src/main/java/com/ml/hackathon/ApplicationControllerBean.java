@@ -1,26 +1,16 @@
 package com.ml.hackathon;
 
-
-// Import required java libraries
-
+import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
-import com.ml.hackathon.db.UserDao;
 import com.ml.hackathon.domain.Order;
-import com.ml.hackathon.domain.Session;
 import com.ml.hackathon.domain.Shipper;
-import com.ml.hackathon.domain.User;
-import com.ml.hackathon.util.SessionUtil;
+import com.ml.hackathon.jobs.BroadcastNotificationsJob;
+import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,14 +19,25 @@ import java.util.List;
 @ManagedBean(name = ApplicationControllerBean.BEAN_NAME, eager = true)
 @ApplicationScoped
 public class ApplicationControllerBean implements Serializable {
+
+    static final Logger log = Logger.getLogger(ApplicationControllerBean.class);
+
     public static final String BEAN_NAME="application";
 
-    private  List<Shipper> shippers;
+    private List<Shipper> shippers;
+    private List<Order> orders;
 
     @PostConstruct
     public void init() {
-        shippers=ShippersDao.getShippers();
-        //TODO: get orders
+        try {
+            shippers = ShippersDao.getShippers();
+            orders = OrderDao.getOrders();
+
+        } catch(Exception e) {
+            log.error("Unexpected error in init method", e);
+        }
+
+        new Thread(new BroadcastNotificationsJob()).start();
     }
 
     public List<Shipper> getShippers(){
@@ -44,7 +45,7 @@ public class ApplicationControllerBean implements Serializable {
     }
 
     public List<Order> getOrders(){
-        return new ArrayList<>();
+        return orders;
     }
 
 }

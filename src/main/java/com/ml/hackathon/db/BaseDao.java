@@ -10,9 +10,10 @@ import java.sql.SQLException;
  * Created by gurodriguez
  */
 public class BaseDao {
+    
     private static final BasicDataSource dataSource = new BasicDataSource();
 
-    static{
+    static {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         String dbHost=(String) PropertyReader.getProperty("db.host");
         int dbPort=Integer.parseInt((String)PropertyReader.getProperty("db.port"));
@@ -26,4 +27,5 @@ public class BaseDao {
     protected static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
+
 }
