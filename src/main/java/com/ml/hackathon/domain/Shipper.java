@@ -1,5 +1,7 @@
 package com.ml.hackathon.domain;
 
+import java.util.Date;
+
 /**
  * Created by gurodriguez on 10/10/15.
  */
@@ -24,8 +26,9 @@ public class Shipper {
     private String shipperType;
 
     private String token;
+    private Date lastSeen;
 
-    public Shipper(int id,String name,boolean active,String shipperType,String vehicle,String email,Integer reputation,Double latitude,Double longitude,String token){
+    public Shipper(int id,String name,boolean active,String shipperType,String vehicle,String email,Integer reputation,Double latitude,Double longitude,String token, Date lastSeen){
         this.id=id;
         this.name=name;
         this.active=active;
@@ -36,6 +39,7 @@ public class Shipper {
         this.latitude=latitude;
         this.longitude=longitude;
         this.token=token;
+        this.lastSeen = lastSeen;
     }
 
     public Shipper(){
@@ -121,4 +125,7 @@ public class Shipper {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public void setLastSeen (Date ts) { lastSeen = ts; }
+    public Date getLastSeen () { return lastSeen; }
 }

@@ -4,16 +4,14 @@ import com.ml.hackathon.domain.Shipper;
 import com.ml.hackathon.domain.ShipperScore;
 import com.ml.hackathon.domain.Order;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 
 public class Scorer {
 
     private static final double MAX_DISTANCE   = 100; // km
     private static final double MIN_REPUTATION = 0;
+    private static final int IDLE_MINUTES = 60;
 
     public static List<ShipperScore> getShippersForOrder (Order order, List<Shipper> candidates) {
 
@@ -51,7 +49,15 @@ public class Scorer {
     };
 
     private static boolean isAllowed (Shipper s) {
-        return s.isActive() && s.getReputation() > MIN_REPUTATION;
+        return s.isActive() && s.getReputation() > MIN_REPUTATION && isAlive(s.getLastSeen());
+    }
+
+    private static boolean isAlive (Date lastSeen) {
+        if (lastSeen == null) return false;
+        long diff = new Date().getTime() - lastSeen.getTime();
+        long diffMinutes = diff / (60 * 1000) % 60;
+        return diffMinutes < IDLE_MINUTES;
+
     }
 
     private static double calculateScore (Shipper s, double distanceTo) {
