@@ -1,5 +1,6 @@
 package com.ml.hackathon.ui.views;
 
+import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.HomePageControllerBean;
 import com.ml.hackathon.domain.Shipper;
 import org.primefaces.event.map.OverlaySelectEvent;
@@ -28,16 +29,14 @@ public class MapLocationView implements Serializable {
     private static final Double  BS_AS_CENTER_LAT=-34.5933382d;
     private static final Double  BS_AS_CENTER_LONG=-58.4360692d;
 
-    private HomePageControllerBean homePageBean;
+    private ApplicationControllerBean appBean;
 
     private  MapModel mapModel;
 
     @PostConstruct
     public void init() {
-        homePageBean=(HomePageControllerBean)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(HomePageControllerBean.BEAN_NAME);
+        appBean=(ApplicationControllerBean)FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get(ApplicationControllerBean.BEAN_NAME);
         mapModel = new DefaultMapModel();
-
-
     }
 
     public Double getMapCenterLatitude(){
@@ -49,7 +48,7 @@ public class MapLocationView implements Serializable {
 
     public MapModel getSimpleModel() {
         mapModel.getMarkers().clear();
-        List<Shipper> shippers=homePageBean.getShippers();
+        List<Shipper> shippers=appBean.getShippers();
         for(Shipper shipper:shippers){
             LatLng coord = new LatLng(shipper.getLatitude(), shipper.getLongitude());
             mapModel.addOverlay(new Marker(coord, shipper.getName()));

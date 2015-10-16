@@ -5,6 +5,7 @@ package com.ml.hackathon.ui.views;
  */
 
 
+import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.HomePageControllerBean;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.domain.Shipper;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.Map;
@@ -28,12 +30,15 @@ public class ShipperEditorView implements Serializable {
 
     private HomePageControllerBean homePageBean;
 
+    private ApplicationControllerBean appBean;
+
     private Shipper selectedShipper;
 
     @PostConstruct
     public void init(){
-        Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-        homePageBean = (HomePageControllerBean) sessionMap.get(HomePageControllerBean.BEAN_NAME);
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        homePageBean = (HomePageControllerBean) context.getSessionMap().get(HomePageControllerBean.BEAN_NAME);
+        appBean=(ApplicationControllerBean) context.getApplicationMap().get(ApplicationControllerBean.BEAN_NAME);
     }
 
 
@@ -47,7 +52,7 @@ public class ShipperEditorView implements Serializable {
             this.selectedShipper=ShippersDao.addShipper(this.selectedShipper);
             if(selectedShipper.getId()>0){
                 context.addMessage(null, new FacesMessage("Shipper creado con éxito",  null) );
-                homePageBean.getShippers().add(selectedShipper);
+                appBean.getShippers().add(selectedShipper);
             }else{
                 context.addMessage(null, new FacesMessage("No se pudo crear el shipper",  null) );
             }
