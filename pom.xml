@@ -150,9 +150,9 @@
                 <environment>dev</environment>
                 <db.host>127.0.0.1</db.host>
                 <db.port>3306</db.port>
-                <db.name>shippers</db.name>
+                <db.name>meli_hackathon_db</db.name>
                 <db.user>root</db.user>
-                <db.pass></db.pass>
+                <db.pass>Meli123456</db.pass>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
