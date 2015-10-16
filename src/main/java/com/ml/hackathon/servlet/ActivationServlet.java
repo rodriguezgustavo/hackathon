@@ -2,12 +2,8 @@ package com.ml.hackathon.servlet;
 
 import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.db.ShippersDao;
-import com.ml.hackathon.db.UserDao;
-import com.ml.hackathon.domain.Session;
 import com.ml.hackathon.domain.Shipper;
-import com.ml.hackathon.util.SessionUtil;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
