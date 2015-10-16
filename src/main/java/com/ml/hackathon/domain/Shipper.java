@@ -23,7 +23,9 @@ public class Shipper {
 
     private String shipperType;
 
-    public Shipper(int id,String name,boolean active,String shipperType,String vehicle,String email,Integer reputation,Double latitude,Double longitude){
+    private String token;
+
+    public Shipper(int id,String name,boolean active,String shipperType,String vehicle,String email,Integer reputation,Double latitude,Double longitude,String token){
         this.id=id;
         this.name=name;
         this.active=active;
@@ -33,6 +35,7 @@ public class Shipper {
         this.reputation=reputation;
         this.latitude=latitude;
         this.longitude=longitude;
+        this.token=token;
     }
 
     public Shipper(){
@@ -109,5 +112,13 @@ public class Shipper {
 
     public void setShipperType(String shipperType) {
         this.shipperType = shipperType;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
