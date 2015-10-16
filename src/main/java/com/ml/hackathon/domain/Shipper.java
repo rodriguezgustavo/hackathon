@@ -7,7 +7,7 @@ public class Shipper {
 
     private int id;
 
-    private Boolean active;
+    private boolean active;
 
     private String name;
 
