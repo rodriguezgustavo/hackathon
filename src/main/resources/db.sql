@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.6.24)
-# Database: shippers
-# Generation Time: 2015-10-15 21:34:54 +0000
+# Database: meli_hackathon_db
+# Generation Time: 2015-10-16 21:00:39 +0000
 # ************************************************************
 
 
@@ -20,10 +20,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table shipper
+# Dump of table order
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `shipper`;
+CREATE TABLE `shipping_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL,
+  `status` varchar(40) NOT NULL DEFAULT '',
+  `seller_id` bigint(11) NOT NULL,
+  `seller_name` varchar(100) NOT NULL DEFAULT '',
+  `seller_address` varchar(100) NOT NULL DEFAULT '',
+  `seller_nickname` varchar(100) NOT NULL DEFAULT '',
+  `seller_email` varchar(100) NOT NULL DEFAULT '',
+  `seller_phone` varchar(40) NOT NULL DEFAULT '',
+  `receiver_id` bigint(11) NOT NULL,
+  `receiver_name` varchar(100) NOT NULL DEFAULT '',
+  `receiver_address` varchar(100) NOT NULL DEFAULT '',
+  `receiver_nickname` varchar(100) NOT NULL DEFAULT '',
+  `receiver_email` varchar(100) NOT NULL,
+  `receiver_phone` varchar(40) NOT NULL DEFAULT '',
+  `item_title` varchar(100) NOT NULL,
+  `item_latitude` double NOT NULL,
+  `item_longitude` double NOT NULL,
+  `item_quantity` bigint(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table shipper
+# ------------------------------------------------------------
 
 CREATE TABLE `shipper` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

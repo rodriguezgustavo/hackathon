@@ -31,11 +31,11 @@ import java.util.List;
 public class ApplicationControllerBean implements Serializable {
     public static final String BEAN_NAME="application";
 
-    private  List<Shipper> shippers;
+    private List<Shipper> shippers;
 
     @PostConstruct
     public void init() {
-        shippers=ShippersDao.getShippers();
+       reload();
         //TODO: get orders
     }
 
@@ -45,6 +45,10 @@ public class ApplicationControllerBean implements Serializable {
 
     public List<Order> getOrders(){
         return new ArrayList<>();
+    }
+
+    public void reload(){
+        shippers=ShippersDao.getShippers();
     }
 
 }
