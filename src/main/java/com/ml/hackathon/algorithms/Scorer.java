@@ -39,9 +39,9 @@ public class Scorer {
     private static final Comparator<ShipperScore> SORT_BY_SCORE_DESC = new Comparator<ShipperScore>() {
         @Override
         public int compare(ShipperScore o1, ShipperScore o2) {
-            int score = - o1.score.compareTo(o2.score);
+            int score = - o1.getScore().compareTo(o2.getScore());
             if (score == 0) {
-                return o1.distance.compareTo(o2.distance);
+                return o1.getDistance().compareTo(o2.getDistance());
             } else {
                 return score;
             }
