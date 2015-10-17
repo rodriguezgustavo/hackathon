@@ -14,11 +14,9 @@ public class Scorer {
     private static final double MIN_REPUTATION = 0;
     private static final int IDLE_MINUTES = 60;
 
-    public static List<ShipperScore> getShippersForOrder (Order order, List<Shipper> candidates) {
+    public static List<ShipperScore> getShippersForOrder (LatLon target, List<Shipper> candidates) {
 
         List<ShipperScore> scored = new ArrayList<>();
-
-        LatLon target = new LatLon(order.getItemLatitude(), order.getItemLongitude());
 
         for (Shipper s: candidates) {
 

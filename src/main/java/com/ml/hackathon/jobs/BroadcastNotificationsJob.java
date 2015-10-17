@@ -33,9 +33,6 @@ public class BroadcastNotificationsJob implements Runnable {
                 for(Order order : orders) {
                     OrderDao.updateOrderStatus(order.getOrderId(), OrderStatus.INVITATION_SENT);
 
-                    List<Shipper> shippers = ShippersDao.getShippers();
-                    List<ShipperScore> shippersScores = Scorer.getShippersForOrder(order, shippers);
-
                     LatLon from = Geocoding.geocode(order.getSellerAddress());
                     LatLon to   = Geocoding.geocode(order.getReceiverAddress());
 
@@ -49,6 +46,9 @@ public class BroadcastNotificationsJob implements Runnable {
                     geo.put("longitude", to.getLongitude());
 
                     String toJson = gson.toJson(geo);
+
+                    List<Shipper> shippers = ShippersDao.getShippers();
+                    List<ShipperScore> shippersScores = Scorer.getShippersForOrder(from, shippers);
 
                     for(ShipperScore shipperScore : shippersScores) {
                         Map<String, String> data = new HashMap<String, String>();

@@ -4,6 +4,7 @@ import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.domain.Order;
 import com.ml.hackathon.domain.Shipper;
+import com.ml.hackathon.jobs.BroadcastNotificationsJob;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
@@ -36,7 +37,7 @@ public class ApplicationControllerBean implements Serializable {
             log.error("Unexpected error in init method", e);
         }
 
-        //new Thread(new BroadcastNotificationsJob()).start();
+        new Thread(new BroadcastNotificationsJob()).start();
     }
 
     public List<Shipper> getShippers(){

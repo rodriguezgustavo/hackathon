@@ -26,6 +26,7 @@ public class Shipper {
     private String shipperType;
 
     private String token;
+
     private Date lastSeen;
 
     public Shipper(int id,String name,boolean active,String shipperType,String vehicle,String email,Integer reputation,Double latitude,Double longitude,String token, Date lastSeen){
