@@ -3,8 +3,6 @@ package com.ml.hackathon.servlet;
 import com.google.gson.Gson;
 import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.db.OrderDao;
-import com.ml.hackathon.db.ShippersDao;
-import com.ml.hackathon.domain.Shipper;
 import com.ml.hackathon.domain.Order;
 
 import javax.servlet.ServletException;
