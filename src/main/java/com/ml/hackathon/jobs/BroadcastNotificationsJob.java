@@ -1,5 +1,6 @@
 package com.ml.hackathon.jobs;
 
+import com.ml.hackathon.algorithms.Pricer;
 import com.ml.hackathon.algorithms.Scorer;
 import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
@@ -35,10 +36,13 @@ public class BroadcastNotificationsJob implements Runnable {
                     for(ShipperScore shipperScore : shippersScores) {
                         Map<String, String> data = new HashMap<String, String>();
 
+                        Double shippingPrice = Pricer.getPriceForShipping(shipperScore);
+
                         data.put("address_from", "");
                         data.put("address_to", "");
                         data.put("geo_from", "");
                         data.put("geo_to", "");
+                        data.put("shipping_price", "");
 
                         NotificationsSender.send(shipperScore.getShipper().getToken(), data);
                     }
