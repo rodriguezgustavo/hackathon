@@ -28,7 +28,7 @@ public class Order implements Serializable {
     private Double itemLongitude;
     private Long itemQuantity;
     private Integer shipperId;
-    private BigDecimal price;
+    private BigDecimal shippingPrice;
 
     public Order() {
         super();
@@ -48,8 +48,8 @@ public class Order implements Serializable {
         return shipperId;
     }
 
-    public void setPrice(BigDecimal price) { this.price = price; }
-    public BigDecimal getPrice() { return price; }
+    public void setShippingPrice(BigDecimal price) { this.shippingPrice = price; }
+    public BigDecimal getShippingPrice() { return shippingPrice; }
 
     public Integer getId() {
         return id;

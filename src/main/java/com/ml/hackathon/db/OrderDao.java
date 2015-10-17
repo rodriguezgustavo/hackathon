@@ -37,7 +37,7 @@ public class OrderDao extends BaseDao {
         order.setItemLongitude(resultSet.getDouble("item_longitude"));
         order.setItemQuantity(resultSet.getLong("item_quantity"));
         order.setShipperId(resultSet.getInt("shipper_id"));
-        order.setPrice(resultSet.getBigDecimal("price"));
+        order.setShippingPrice(resultSet.getBigDecimal("shipping_price"));
 
         return order;
     }
