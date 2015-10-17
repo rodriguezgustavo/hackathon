@@ -79,7 +79,12 @@ public class StatusChangeServlet extends HttpServlet {
             order.setStatus(status);
             OrderDao.updateOrderStatus(orderId, status);
 
-            //Actualizar orden en applicationBean
+            for(Order o:appBean.getOrders()) {
+                if(o.getOrderId().equals(orderId)){
+                    o.setStatus(status);
+                    break;
+                }
+            }
 
             Gson gson = new Gson();
             response.setStatus(HttpServletResponse.SC_OK);
