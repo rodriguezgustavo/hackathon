@@ -1,5 +1,6 @@
 package com.ml.hackathon.jobs;
 
+import com.ml.hackathon.algorithms.Pricer;
 import com.ml.hackathon.algorithms.Scorer;
 import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
