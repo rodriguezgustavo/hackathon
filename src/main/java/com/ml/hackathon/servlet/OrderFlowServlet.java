@@ -84,7 +84,8 @@ public class OrderFlowServlet extends HttpServlet {
                     responseData = new ResponseData(order, "ok");
                     order.setShipperId(shipperId);
                     order.setStatus(OrderStatus.ACCEPTED);
-                    OrderDao.updateOrderShipper(orderId, shipperId);
+                    OrderDao.updateOrderShipper(orderId, shipperId, OrderStatus.ACCEPTED);
+
                     for(Order o:appBean.getOrders()) {
                         if(o.getOrderId().equals(orderId)){
                             o.setShipperId(shipperId);

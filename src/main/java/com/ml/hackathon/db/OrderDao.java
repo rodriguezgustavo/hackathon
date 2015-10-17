@@ -173,16 +173,17 @@ public class OrderDao extends BaseDao {
         return result;
     }
 
-    public static Integer updateOrderShipper (Long orderId, Integer shipperId) throws Exception {
+    public static Integer updateOrderShipper (Long orderId, Integer shipperId,OrderStatus status) throws Exception {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
             connection = getConnection();
 
-            preparedStatement = connection.prepareStatement("update shipping_order set shipper_id = ? where order_id = ?");
+            preparedStatement = connection.prepareStatement("update shipping_order set shipper_id = ?, status=? where order_id = ?");
             preparedStatement.setInt(1, shipperId);
-            preparedStatement.setLong(2, orderId);
+            preparedStatement.setString(2, status.toString());
+            preparedStatement.setLong(3, orderId);
 
             return preparedStatement.executeUpdate();
 
