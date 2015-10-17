@@ -50,8 +50,10 @@ public class MapLocationView implements Serializable {
         mapModel.getMarkers().clear();
         List<Shipper> shippers=appBean.getShippers();
         for(Shipper shipper:shippers){
-            LatLng coord = new LatLng(shipper.getLatitude(), shipper.getLongitude());
-            mapModel.addOverlay(new Marker(coord, shipper.getName()));
+            if(shipper.isActive()){
+                LatLng coord = new LatLng(shipper.getLatitude(), shipper.getLongitude());
+                mapModel.addOverlay(new Marker(coord, shipper.getName()));
+            }
         }
        return mapModel;
     }

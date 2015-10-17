@@ -1,7 +1,10 @@
 package com.ml.hackathon.ui.views;
 
 import com.ml.hackathon.ApplicationControllerBean;
+import com.ml.hackathon.domain.Order;
+import com.ml.hackathon.domain.Shipper;
 import com.ml.hackathon.ui.views.util.LazyOrdersDataModel;
+import org.primefaces.model.LazyDataModel;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -42,5 +45,10 @@ public class OrdersView implements Serializable{
     public void process() {
 
     }
+
+    public LazyDataModel<Order> getLazyModel() {
+        return ordersDataModel;
+    }
+
 
 }
