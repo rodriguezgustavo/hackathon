@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.24)
 # Database: meli_hackathon_db
-# Generation Time: 2015-10-16 21:00:39 +0000
+# Generation Time: 2015-10-17 06:12:35 +0000
 # ************************************************************
 
 
@@ -20,36 +20,10 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table order
-# ------------------------------------------------------------
-
-CREATE TABLE `shipping_order` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `order_id` bigint(20) NOT NULL,
-  `status` varchar(40) NOT NULL DEFAULT '',
-  `seller_id` bigint(11) NOT NULL,
-  `seller_name` varchar(100) NOT NULL DEFAULT '',
-  `seller_address` varchar(1024) NOT NULL DEFAULT '',
-  `seller_nickname` varchar(100) NOT NULL DEFAULT '',
-  `seller_email` varchar(100) NOT NULL DEFAULT '',
-  `seller_phone` varchar(40) NOT NULL DEFAULT '',
-  `receiver_id` bigint(11) NOT NULL,
-  `receiver_name` varchar(100) NOT NULL DEFAULT '',
-  `receiver_address` varchar(1024) NOT NULL DEFAULT '',
-  `receiver_nickname` varchar(100) NOT NULL DEFAULT '',
-  `receiver_email` varchar(100) NOT NULL,
-  `receiver_phone` varchar(40) NOT NULL DEFAULT '',
-  `item_title` varchar(100) NOT NULL,
-  `item_latitude` double NOT NULL,
-  `item_longitude` double NOT NULL,
-  `item_quantity` bigint(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `shipping_order`(order_id, status, seller_id, seller_name, seller_address, seller_nickname, seller_email, seller_phone, receiver_id, receiver_name, receiver_address, receiver_nickname, receiver_email, receiver_phone, item_title, item_latitude, item_longitude, item_quantity) VALUES (1, 'PENDING', 12324354, 'Test', "Mendoza 3000", 'TEST1', 'test1@hotmail.com', '4536-3452', 12324355, 'Test 2', "Mendoza 3001", 'TEST2', 'test3@hotmail.com', '4536-3454', 'Item de testeo - Por favor no ofertar', 45.01, 44.92, 10);
-
 # Dump of table shipper
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shipper`;
 
 CREATE TABLE `shipper` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -62,6 +36,39 @@ CREATE TABLE `shipper` (
   `last_latitude` double DEFAULT NULL,
   `last_longitude` double DEFAULT NULL,
   `token` varchar(1000) DEFAULT NULL,
+  `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+# Dump of table shipping_order
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `shipping_order`;
+
+CREATE TABLE `shipping_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` bigint(20) NOT NULL,
+  `status` varchar(40) NOT NULL DEFAULT '',
+  `seller_id` bigint(11) NOT NULL,
+  `seller_name` varchar(100) NOT NULL DEFAULT '',
+  `seller_address` varchar(1000) NOT NULL DEFAULT '',
+  `seller_nickname` varchar(100) NOT NULL DEFAULT '',
+  `seller_email` varchar(100) NOT NULL DEFAULT '',
+  `seller_phone` varchar(40) NOT NULL DEFAULT '',
+  `receiver_id` bigint(11) NOT NULL,
+  `receiver_name` varchar(100) NOT NULL DEFAULT '',
+  `receiver_address` varchar(1000) NOT NULL DEFAULT '',
+  `receiver_nickname` varchar(100) NOT NULL DEFAULT '',
+  `receiver_email` varchar(100) NOT NULL,
+  `receiver_phone` varchar(40) NOT NULL DEFAULT '',
+  `item_title` varchar(100) NOT NULL,
+  `item_latitude` double NOT NULL,
+  `item_longitude` double NOT NULL,
+  `item_quantity` bigint(11) NOT NULL,
+  `shipper_id` int(10) unsigned DEFAULT NULL,
+  `shipping_price` decimal(10,0) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
