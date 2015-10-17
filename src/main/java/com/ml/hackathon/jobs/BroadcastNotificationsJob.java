@@ -1,6 +1,7 @@
 package com.ml.hackathon.jobs;
 
 import com.ml.hackathon.algorithms.Scorer;
+import com.ml.hackathon.config.Config;
 import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.domain.Order;
@@ -44,6 +45,10 @@ public class BroadcastNotificationsJob implements Runnable {
                     }
 
                     OrderDao.updateOrderStatus(order.getOrderId(), OrderStatus.PROCESSED.toString());
+                }
+
+                if(orders.isEmpty()) {
+                    Thread.sleep(Config.BROADCAST_NOTIFICATIONS_JOB_SLEEP);
                 }
 
             } catch (Exception e) {
