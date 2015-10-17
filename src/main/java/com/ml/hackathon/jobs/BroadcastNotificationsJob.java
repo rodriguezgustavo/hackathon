@@ -35,9 +35,12 @@ public class BroadcastNotificationsJob implements Runnable {
                     for(ShipperScore shipperScore : shippersScores) {
                         Map<String, String> data = new HashMap<String, String>();
 
-                        data.put("", "");
+                        data.put("address_from", "");
+                        data.put("address_to", "");
+                        data.put("geo_from", "");
+                        data.put("geo_to", "");
 
-                       NotificationsSender.send(shipperScore.getShipper().getToken(), data);
+                        NotificationsSender.send(shipperScore.getShipper().getToken(), data);
                     }
 
                     OrderDao.updateOrderStatus(order.getOrderId(), OrderStatus.PROCESSED.toString());
