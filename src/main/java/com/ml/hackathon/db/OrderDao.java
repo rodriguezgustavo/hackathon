@@ -36,6 +36,8 @@ public class OrderDao extends BaseDao {
         order.setItemLatitude(resultSet.getDouble("item_latitude"));
         order.setItemLongitude(resultSet.getDouble("item_longitude"));
         order.setItemQuantity(resultSet.getLong("item_quantity"));
+        order.setShipperId(resultSet.getInt("shipper_id"));
+        order.setPrice(resultSet.getBigDecimal("price"));
 
         return order;
     }
@@ -170,6 +172,38 @@ public class OrderDao extends BaseDao {
         return result;
     }
 
+    public static Integer updateOrderShipper (Long orderId, Integer shipperId) throws Exception {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+
+            preparedStatement = connection.prepareStatement("update shipping_order set shipper_id = ? where order_id = ?");
+            preparedStatement.setInt(1, shipperId);
+            preparedStatement.setLong(2, orderId);
+
+            return preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw e;
+
+        } finally {
+            try {
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+                if(connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+    }
+
     public static Integer updateOrderStatus(Long orderId, String status) throws Exception {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -177,7 +211,7 @@ public class OrderDao extends BaseDao {
         try {
             connection = getConnection();
 
-            preparedStatement = connection.prepareStatement("update shipping_order set status = ? where id = ?");
+            preparedStatement = connection.prepareStatement("update shipping_order set status = ? where order_id = ?");
             preparedStatement.setString(1, status);
             preparedStatement.setLong(2, orderId);
 
