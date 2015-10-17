@@ -34,10 +34,6 @@ public class OrderFlowServlet extends HttpServlet {
                       HttpServletResponse response)
             throws ServletException, IOException
     {
-        for(String parameterName: Collections.list(request.getParameterNames())){
-            System.out.println("Parameter:"+parameterName+";value:"+request.getParameter(parameterName));
-        }
-
         Integer shipperId = null;
         Long orderId = null;
 
@@ -77,10 +73,10 @@ public class OrderFlowServlet extends HttpServlet {
 
                 ResponseData responseData;
 
-                if (order.getShipperId() != null) {
-                    responseData = new ResponseData();
-                    responseData.status = "rejected";
-                } else {
+                //if (order.getShipperId() != null) {
+                //    responseData = new ResponseData();
+                //    responseData.status = "rejected";
+                //} else {
                     responseData = new ResponseData(order, "ok");
                     order.setShipperId(shipperId);
                     order.setStatus(OrderStatus.ACCEPTED);
@@ -93,7 +89,7 @@ public class OrderFlowServlet extends HttpServlet {
                             break;
                         }
                     }
-                }
+                //}
 
                 Gson gson = new Gson();
                 response.setStatus(HttpServletResponse.SC_OK);
