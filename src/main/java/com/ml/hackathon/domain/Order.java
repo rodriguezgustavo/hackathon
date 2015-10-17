@@ -1,6 +1,7 @@
 package com.ml.hackathon.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author mlabarinas
@@ -26,6 +27,8 @@ public class Order implements Serializable {
     private Double itemLatitude;
     private Double itemLongitude;
     private Long itemQuantity;
+    private Integer shipperId;
+    private BigDecimal shippingPrice;
 
     public Order() {
         super();
@@ -36,6 +39,17 @@ public class Order implements Serializable {
 
         this.orderId = orderId;
     }
+
+    public void setShipperId (Integer id) { shipperId = id; }
+    public Integer getShipperId() {
+        if (shipperId == 0)
+            return null;
+
+        return shipperId;
+    }
+
+    public void setShippingPrice(BigDecimal price) { this.shippingPrice = price; }
+    public BigDecimal getShippingPrice() { return shippingPrice; }
 
     public Integer getId() {
         return id;
@@ -57,8 +71,8 @@ public class Order implements Serializable {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(OrderStatus status) {
+        this.status = status.toString();
     }
 
     public Long getSellerId() {

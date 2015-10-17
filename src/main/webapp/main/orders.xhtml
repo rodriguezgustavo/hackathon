@@ -5,22 +5,31 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core">
     <h:form id="ordersForm">
-    <table border="0" style="width:100%;margin-top:20px">
-        <tr>
-            <td width="160px">
-                <p:outputLabel for="orderInputTextId" value="Órden a procesar" />
-            </td>
-            <td width="220px">
-                <p:inputText id="orderInputTextId" style="width: 200px"/>
-            </td>
-            <td>
-                <p:commandButton value="Procesar" actionListener="#{ordersView.process}" />
-            </td>
+        <p:dataTable id="ordersTable" var="order" value="#{ordersView.lazyModel}" paginator="true" rows="15" rowKey="#{order.id}"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     lazy="true" paginatorPosition="bottom"
+                     currentPageReportTemplate="{currentPage} de {totalPages}" rowsPerPageTemplate="15,30,50"  style="width:100%;margin-top:20px">
 
-            <td width="160px">
-                <p:outputLabel  value="#{ordersView.message}"/>
-            </td>
-        </tr>
-    </table>
+
+            <p:column headerText="Order Id" sortBy="#{order.orderId}" filterBy="#{order.orderId}" filterStyle="width: 60%;" style="width:60px; text-align:center">
+                <h:outputText value="#{order.orderId}" />
+            </p:column>
+            <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}" filterStyle="width: 60%;" style="width:60px; text-align:center">
+                <h:outputText value="#{order.status}" />
+            </p:column>
+            <p:column headerText="Comprador" sortBy="#{order.receiverNickname}" filterBy="#{order.receiverNickname}" filterStyle="width: 60%;" style="width:80px; text-align:center">
+                <h:outputText value="#{order.receiverNickname}" />
+            </p:column>
+            <p:column headerText="Vendedor" sortBy="#{order.sellerNickname}" filterBy="#{order.sellerNickname}" filterStyle="width: 60%;" style="width:80px; text-align:center">
+                <h:outputText value="#{order.sellerNickname}" />
+            </p:column>
+            <p:column headerText="Item" sortBy="#{order.itemTitle}" filterBy="#{order.itemTitle}" filterStyle="width: 60%;" style="width:30%">
+                <h:outputText value="#{order.itemTitle}" />
+            </p:column>
+            <p:column headerText="Precio Shipping" sortBy="#{order.itemTitle}" filterBy="#{order.itemTitle}" filterStyle="width: 60%;" style="width:30%">
+                
+            </p:column>
+
+        </p:dataTable>
     </h:form>
 </ui:composition>
