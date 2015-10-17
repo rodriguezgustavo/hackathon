@@ -11,16 +11,16 @@
                      currentPageReportTemplate="{currentPage} de {totalPages}" rowsPerPageTemplate="15,30,50"  style="width:100%;margin-top:20px">
 
 
-            <p:column headerText="Order Id" sortBy="#{order.orderId}" filterBy="#{order.orderId}" filterStyle="width: 60%;" style="width:30%">
+            <p:column headerText="Order Id" sortBy="#{order.orderId}" filterBy="#{order.orderId}" filterStyle="width: 60%;" style="width:60px; text-align:center">
                 <h:outputText value="#{order.orderId}" />
             </p:column>
-            <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}" filterStyle="width: 60%;" style="width:30%">
+            <p:column headerText="Status" sortBy="#{order.status}" filterBy="#{order.status}" filterStyle="width: 60%;" style="width:60px; text-align:center">
                 <h:outputText value="#{order.status}" />
             </p:column>
-            <p:column headerText="Comprador" sortBy="#{order.receiverNickname}" filterBy="#{order.receiverNickname}" filterStyle="width: 60%;" style="width:30%">
+            <p:column headerText="Comprador" sortBy="#{order.receiverNickname}" filterBy="#{order.receiverNickname}" filterStyle="width: 60%;" style="width:80px; text-align:center">
                 <h:outputText value="#{order.receiverNickname}" />
             </p:column>
-            <p:column headerText="Vendedor" sortBy="#{order.sellerNickname}" filterBy="#{order.sellerNickname}" filterStyle="width: 60%;" style="width:30%">
+            <p:column headerText="Vendedor" sortBy="#{order.sellerNickname}" filterBy="#{order.sellerNickname}" filterStyle="width: 60%;" style="width:80px; text-align:center">
                 <h:outputText value="#{order.sellerNickname}" />
             </p:column>
             <p:column headerText="Item" sortBy="#{order.itemTitle}" filterBy="#{order.itemTitle}" filterStyle="width: 60%;" style="width:30%">
