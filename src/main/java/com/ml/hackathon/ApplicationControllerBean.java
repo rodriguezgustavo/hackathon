@@ -4,7 +4,6 @@ import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.domain.Order;
 import com.ml.hackathon.domain.Shipper;
-import com.ml.hackathon.jobs.BroadcastNotificationsJob;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;

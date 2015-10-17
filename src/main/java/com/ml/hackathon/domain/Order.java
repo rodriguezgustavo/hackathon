@@ -1,7 +1,6 @@
 package com.ml.hackathon.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author mlabarinas
