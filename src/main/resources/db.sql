@@ -29,13 +29,13 @@ CREATE TABLE `shipping_order` (
   `status` varchar(40) NOT NULL DEFAULT '',
   `seller_id` bigint(11) NOT NULL,
   `seller_name` varchar(100) NOT NULL DEFAULT '',
-  `seller_address` varchar(100) NOT NULL DEFAULT '',
+  `seller_address` varchar(1024) NOT NULL DEFAULT '',
   `seller_nickname` varchar(100) NOT NULL DEFAULT '',
   `seller_email` varchar(100) NOT NULL DEFAULT '',
   `seller_phone` varchar(40) NOT NULL DEFAULT '',
   `receiver_id` bigint(11) NOT NULL,
   `receiver_name` varchar(100) NOT NULL DEFAULT '',
-  `receiver_address` varchar(100) NOT NULL DEFAULT '',
+  `receiver_address` varchar(1024) NOT NULL DEFAULT '',
   `receiver_nickname` varchar(100) NOT NULL DEFAULT '',
   `receiver_email` varchar(100) NOT NULL,
   `receiver_phone` varchar(40) NOT NULL DEFAULT '',
@@ -46,7 +46,7 @@ CREATE TABLE `shipping_order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
+INSERT INTO `shipping_order`(order_id, status, seller_id, seller_name, seller_address, seller_nickname, seller_email, seller_phone, receiver_id, receiver_name, receiver_address, receiver_nickname, receiver_email, receiver_phone, item_title, item_latitude, item_longitude, item_quantity) VALUES (1, 'PENDING', 12324354, 'Test', "Mendoza 3000", 'TEST1', 'test1@hotmail.com', '4536-3452', 12324355, 'Test 2', "Mendoza 3001", 'TEST2', 'test3@hotmail.com', '4536-3454', 'Item de testeo - Por favor no ofertar', 45.01, 44.92, 10);
 
 # Dump of table shipper
 # ------------------------------------------------------------

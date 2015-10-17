@@ -1,7 +1,7 @@
 package com.ml.hackathon.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
 
 /**
  * @author mlabarinas
@@ -27,6 +27,8 @@ public class Order implements Serializable {
     private Double itemLatitude;
     private Double itemLongitude;
     private Long itemQuantity;
+    private Integer shipperId;
+    private BigDecimal price;
 
     public Order() {
         super();
@@ -37,6 +39,17 @@ public class Order implements Serializable {
 
         this.orderId = orderId;
     }
+
+    public void setShipperId (Integer id) { shipperId = id; }
+    public Integer getShipperId() {
+        if (shipperId == 0)
+            return null;
+
+        return shipperId;
+    }
+
+    public void setPrice(BigDecimal price) { this.price = price; }
+    public BigDecimal getPrice() { return price; }
 
     public Integer getId() {
         return id;
