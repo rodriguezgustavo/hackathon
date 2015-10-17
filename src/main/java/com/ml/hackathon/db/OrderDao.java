@@ -14,6 +14,32 @@ import java.util.List;
  */
 public class OrderDao extends BaseDao {
 
+    private static Order fillOrder (ResultSet resultSet) throws Exception {
+        Order order = new Order();
+
+        order.setId(resultSet.getInt("id"));
+        order.setOrderId(resultSet.getLong("order_id"));
+        order.setStatus(resultSet.getString("status"));
+        order.setSellerId(resultSet.getLong("seller_id"));
+        order.setSellerName(resultSet.getString("seller_name"));
+        order.setSellerAddress(resultSet.getString("seller_address"));
+        order.setSellerNickname(resultSet.getString("seller_nickname"));
+        order.setSellerEmail(resultSet.getString("seller_email"));
+        order.setSellerPhone(resultSet.getString("seller_phone"));
+        order.setReceiverId(resultSet.getLong("receiver_id"));
+        order.setReceiverName(resultSet.getString("receiver_name"));
+        order.setReceiverAddress(resultSet.getString("receiver_address"));
+        order.setReceiverNickname(resultSet.getString("receiver_nickname"));
+        order.setReceiverEmail(resultSet.getString("receiver_email"));
+        order.setReceiverPhone(resultSet.getString("receiver_phone"));
+        order.setItemTitle(resultSet.getString("item_title"));
+        order.setItemLatitude(resultSet.getDouble("item_latitude"));
+        order.setItemLongitude(resultSet.getDouble("item_longitude"));
+        order.setItemQuantity(resultSet.getLong("item_quantity"));
+
+        return order;
+    }
+
     public static List<Order> getOrders() throws Exception {
         List<Order> result = new ArrayList<>();
         Connection connection = null;
@@ -28,29 +54,7 @@ public class OrderDao extends BaseDao {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                Order order = new Order();
-
-                order.setId(resultSet.getInt("id"));
-                order.setOrderId(resultSet.getLong("order_id"));
-                order.setStatus(resultSet.getString("status"));
-                order.setSellerId(resultSet.getLong("seller_id"));
-                order.setSellerName(resultSet.getString("seller_name"));
-                order.setSellerAddress(resultSet.getString("seller_address"));
-                order.setSellerNickname(resultSet.getString("seller_nickname"));
-                order.setSellerEmail(resultSet.getString("seller_email"));
-                order.setSellerPhone(resultSet.getString("seller_phone"));
-                order.setReceiverId(resultSet.getLong("receiver_id"));
-                order.setReceiverName(resultSet.getString("receiver_name"));
-                order.setReceiverAddress(resultSet.getString("receiver_address"));
-                order.setReceiverNickname(resultSet.getString("receiver_nickname"));
-                order.setReceiverEmail(resultSet.getString("receiver_email"));
-                order.setReceiverPhone(resultSet.getString("receiver_phone"));
-                order.setItemTitle(resultSet.getString("item_title"));
-                order.setItemLatitude(resultSet.getDouble("item_latitude"));
-                order.setItemLongitude(resultSet.getDouble("item_longitude"));
-                order.setItemQuantity(resultSet.getLong("item_quantity"));
-
-                result.add(order);
+                result.add(fillOrder(resultSet));
             }
 
         } catch (SQLException e) {
@@ -78,6 +82,8 @@ public class OrderDao extends BaseDao {
         return result;
     }
 
+
+
     public static List<Order> getOrdersByStatus(String status) throws Exception {
         List<Order> result = new ArrayList<>();
         Connection connection = null;
@@ -93,29 +99,50 @@ public class OrderDao extends BaseDao {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()) {
-                Order order = new Order();
+                result.add(fillOrder(resultSet));
+            }
 
-                order.setId(resultSet.getInt("id"));
-                order.setOrderId(resultSet.getLong("order_id"));
-                order.setStatus(resultSet.getString("status"));
-                order.setSellerId(resultSet.getLong("seller_id"));
-                order.setSellerName(resultSet.getString("seller_name"));
-                order.setSellerAddress(resultSet.getString("seller_address"));
-                order.setSellerNickname(resultSet.getString("seller_nickname"));
-                order.setSellerEmail(resultSet.getString("seller_email"));
-                order.setSellerPhone(resultSet.getString("seller_phone"));
-                order.setReceiverId(resultSet.getLong("receiver_id"));
-                order.setReceiverName(resultSet.getString("receiver_name"));
-                order.setReceiverAddress(resultSet.getString("receiver_address"));
-                order.setReceiverNickname(resultSet.getString("receiver_nickname"));
-                order.setReceiverEmail(resultSet.getString("receiver_email"));
-                order.setReceiverPhone(resultSet.getString("receiver_phone"));
-                order.setItemTitle(resultSet.getString("item_title"));
-                order.setItemLatitude(resultSet.getDouble("item_latitude"));
-                order.setItemLongitude(resultSet.getDouble("item_longitude"));
-                order.setItemQuantity(resultSet.getLong("item_quantity"));
+        } catch (SQLException e) {
+            throw e;
 
-                result.add(order);
+        } finally {
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                }
+
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+                if(connection != null) {
+                    connection.close();
+                }
+
+            } catch (SQLException e) {
+                throw e;
+            }
+        }
+
+        return result;
+    }
+
+    public static Order getOrderById(Long id) throws Exception {
+        Order result = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+
+            preparedStatement = connection.prepareStatement("select * from shipping_order where order_id = ?");
+            preparedStatement.setLong(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                result = fillOrder(resultSet);
             }
 
         } catch (SQLException e) {
