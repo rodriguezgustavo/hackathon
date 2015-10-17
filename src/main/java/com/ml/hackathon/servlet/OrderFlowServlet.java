@@ -75,9 +75,9 @@ public class OrderFlowServlet extends HttpServlet {
 
                 //if (order.getShipperId() != null) {
                 //    responseData = new ResponseData();
-                //    responseData.status = "rejected";
+                //    responseData.accepted = "false";
                 //} else {
-                    responseData = new ResponseData(order, "ok");
+                    responseData = new ResponseData(order, "true");
                     order.setShipperId(shipperId);
                     order.setStatus(OrderStatus.ACCEPTED);
                     OrderDao.updateOrderShipper(orderId, shipperId, OrderStatus.ACCEPTED);
@@ -107,10 +107,10 @@ public class OrderFlowServlet extends HttpServlet {
     private static class ResponseData
     {
         Order order;
-        String status;
+        String accepted;
         ResponseData() {}
 
-        ResponseData(Order o, String st) { order = o; status = st; }
+        ResponseData(Order o, String st) { order = o; accepted = st; }
     }
 
 

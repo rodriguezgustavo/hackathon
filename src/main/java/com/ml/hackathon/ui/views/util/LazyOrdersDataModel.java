@@ -48,7 +48,7 @@ public class LazyOrdersDataModel extends LazyDataModel<Order> {
                             String filterProperty = it.next();
                             String filterValue = filters.get(filterProperty).toString();
 
-                            String fieldValue = String.valueOf(PropertyReader.getGetter(Shipper.class, filterProperty).invoke(order));
+                            String fieldValue = String.valueOf(PropertyReader.getGetter(Order.class, filterProperty).invoke(order));
 
                             if (filterValue == null || fieldValue.toLowerCase().contains(filterValue.toLowerCase())) {
                                 match = true;

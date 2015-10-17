@@ -29,23 +29,6 @@ public class OrdersView implements Serializable{
         ordersDataModel= new LazyOrdersDataModel(appBean.getOrders());
     }
 
-    private String message="Sin arrancar";
-
-    private boolean refreshing;
-
-    public String getMessage(){
-        return message;
-    }
-
-    public boolean isRefreshing(){
-        return refreshing;
-    }
-
-
-    public void process() {
-
-    }
-
     public LazyDataModel<Order> getLazyModel() {
         return ordersDataModel;
     }
