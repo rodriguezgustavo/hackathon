@@ -1,6 +1,7 @@
 package com.ml.hackathon.db;
 
 import com.ml.hackathon.domain.Order;
+import com.ml.hackathon.domain.OrderStatus;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class OrderDao extends BaseDao {
 
         order.setId(resultSet.getInt("id"));
         order.setOrderId(resultSet.getLong("order_id"));
-        order.setStatus(resultSet.getString("status"));
+        order.setStatus(OrderStatus.valueOf(resultSet.getString("status")));
         order.setSellerId(resultSet.getLong("seller_id"));
         order.setSellerName(resultSet.getString("seller_name"));
         order.setSellerAddress(resultSet.getString("seller_address"));
@@ -204,7 +205,7 @@ public class OrderDao extends BaseDao {
         }
     }
 
-    public static Integer updateOrderStatus(Long orderId, String status) throws Exception {
+    public static Integer updateOrderStatus(Long orderId, OrderStatus status) throws Exception {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -212,7 +213,7 @@ public class OrderDao extends BaseDao {
             connection = getConnection();
 
             preparedStatement = connection.prepareStatement("update shipping_order set status = ? where order_id = ?");
-            preparedStatement.setString(1, status);
+            preparedStatement.setString(1, status.toString());
             preparedStatement.setLong(2, orderId);
 
             return preparedStatement.executeUpdate();

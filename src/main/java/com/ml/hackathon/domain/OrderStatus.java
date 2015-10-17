@@ -6,8 +6,10 @@ package com.ml.hackathon.domain;
 public enum OrderStatus {
 
     PENDING("PENDING"),
-    PROCESSED("PROCESSED"),
-    ERROR("ERROR");
+    INVITATION_SENT("INVITATION_SENT"),
+    ACCEPTED("ACCEPTED"),
+    PICKED_UP("PICKED_UP"),
+    DELIVERED("DELIVERED");
 
     private static final long serialVersionUID = 1L;
 

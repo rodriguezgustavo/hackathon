@@ -5,6 +5,7 @@ import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.domain.Order;
+import com.ml.hackathon.domain.OrderStatus;
 import com.ml.hackathon.domain.Shipper;
 
 import javax.servlet.ServletException;
@@ -43,8 +44,16 @@ public class StatusChangeServlet extends HttpServlet {
             return;
         }
 
-        String status = request.getParameter("status");
-        // TODO validar status
+        OrderStatus status;
+        try {
+             status = OrderStatus.valueOf(request.getParameter("status"));
+        } catch(Exception e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getOutputStream().print("Bad status");
+            return;
+        }
+
+        System.out.println("Status request:order_id" + orderId + ";user_id:" + shipperId + ";status:" +status);
 
         Order order = null;
         Shipper shipper = null;
@@ -69,6 +78,8 @@ public class StatusChangeServlet extends HttpServlet {
         try {
             order.setStatus(status);
             OrderDao.updateOrderStatus(orderId, status);
+
+            //Actualizar orden en applicationBean
 
             Gson gson = new Gson();
             response.setStatus(HttpServletResponse.SC_OK);

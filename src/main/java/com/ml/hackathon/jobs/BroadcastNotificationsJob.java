@@ -30,6 +30,8 @@ public class BroadcastNotificationsJob implements Runnable {
                 List<Order> orders = OrderDao.getOrdersByStatus(OrderStatus.PENDING.toString());
 
                 for(Order order : orders) {
+                    OrderDao.updateOrderStatus(order.getOrderId(), OrderStatus.INVITATION_SENT);
+
                     List<Shipper> shippers = ShippersDao.getShippers();
                     List<ShipperScore> shippersScores = Scorer.getShippersForOrder(order, shippers);
 
@@ -45,7 +47,7 @@ public class BroadcastNotificationsJob implements Runnable {
                         NotificationsSender.send(shipperScore.getShipper().getToken(), data);
                     }
 
-                    OrderDao.updateOrderStatus(order.getOrderId(), OrderStatus.PROCESSED.toString());
+
                 }
 
             } catch (Exception e) {

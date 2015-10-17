@@ -5,12 +5,15 @@ import com.ml.hackathon.ApplicationControllerBean;
 import com.ml.hackathon.db.OrderDao;
 import com.ml.hackathon.db.ShippersDao;
 import com.ml.hackathon.domain.Order;
+import com.ml.hackathon.domain.OrderStatus;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by gurodriguez
@@ -30,6 +33,9 @@ public class OrderFlowServlet extends HttpServlet {
                       HttpServletResponse response)
             throws ServletException, IOException
     {
+        for(String parameterName: Collections.list(request.getParameterNames())){
+            System.out.println("Parameter:"+parameterName+";value:"+request.getParameter(parameterName));
+        }
 
         Integer shipperId = null;
         Long orderId = null;
@@ -45,8 +51,9 @@ public class OrderFlowServlet extends HttpServlet {
         }
 
         boolean accept = Boolean.parseBoolean(request.getParameter("accept"));
-        if (accept) {
+        System.out.println("Flow request:order_id"+orderId+";accept:"+accept+";user_id:"+shipperId);
 
+        if (accept) {
 
             Order order;
             try {
@@ -75,7 +82,10 @@ public class OrderFlowServlet extends HttpServlet {
                 } else {
                     responseData = new ResponseData(order, "ok");
                     order.setShipperId(shipperId);
+                    order.setStatus(OrderStatus.ACCEPTED);
                     OrderDao.updateOrderShipper(orderId, shipperId);
+
+                    //Actualizar orden en applicationBean
                 }
 
                 Gson gson = new Gson();
