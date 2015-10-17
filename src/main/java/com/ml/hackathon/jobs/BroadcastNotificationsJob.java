@@ -1,6 +1,6 @@
 package com.ml.hackathon.jobs;
 
-import com.ml.hackathon.algorithms.Pricer;
+import com.google.gson.Gson;
 import com.ml.hackathon.algorithms.Scorer;
 import com.ml.hackathon.config.Config;
 import com.ml.hackathon.db.OrderDao;
@@ -21,6 +21,8 @@ public class BroadcastNotificationsJob implements Runnable {
 
     static final Logger log = Logger.getLogger(BroadcastNotificationsJob.class);
 
+    private Gson gson = new Gson();
+
     public void run() {
         log.info("Start BroadcastNotifications job");
 
@@ -31,19 +33,26 @@ public class BroadcastNotificationsJob implements Runnable {
                 for(Order order : orders) {
                     OrderDao.updateOrderStatus(order.getOrderId(), OrderStatus.INVITATION_SENT);
 
-                    List<Shipper> shippers = ShippersDao.getShippers();
-                    List<ShipperScore> shippersScores = Scorer.getShippersForOrder(order, shippers);
-
                     LatLon from = Geocoding.geocode(order.getSellerAddress());
                     LatLon to   = Geocoding.geocode(order.getReceiverAddress());
 
-                    String fromJson = "{\"latitude\":" + from.getLatitude() + ", \"longitude\":" + from.getLongitude() + "}";
-                    String toJson = "{\"latitude\":" + to.getLatitude() + ", \"longitude\":" + to.getLongitude() + "}";
+                    Map<String, Double> geo = new HashMap<String, Double>();
+                    geo.put("latitude", from.getLatitude());
+                    geo.put("longitude", from.getLongitude());
 
+                    String fromJson = gson.toJson(geo);
+
+                    geo.put("latitude", to.getLatitude());
+                    geo.put("longitude", to.getLongitude());
+
+                    String toJson = gson.toJson(geo);
+
+                    List<Shipper> shippers = ShippersDao.getShippers();
+                    List<ShipperScore> shippersScores = Scorer.getShippersForOrder(from, shippers);
 
                     for(ShipperScore shipperScore : shippersScores) {
                         Map<String, String> data = new HashMap<String, String>();
-                        data.put("order_id", order.getSellerAddress());
+                        data.put("order_id", order.getOrderId().toString());
                         data.put("address_from", order.getSellerAddress());
                         data.put("address_to", order.getReceiverAddress());
                         data.put("geo_from", fromJson);
@@ -52,8 +61,6 @@ public class BroadcastNotificationsJob implements Runnable {
 
                         NotificationsSender.send(shipperScore.getShipper().getToken(), data);
                     }
-
-
                 }
 
                 if(orders.isEmpty()) {

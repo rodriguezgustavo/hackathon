@@ -105,10 +105,11 @@ public class ShippersDao extends BaseDao{
     }
 
     public static List<Shipper> getShippers(){
-        List<Shipper> result=new ArrayList<>();
+        List<Shipper> result = new ArrayList<>();
         Connection con = null;
         PreparedStatement st = null;
         ResultSet rs = null;
+
         try {
             con=getConnection();
 
